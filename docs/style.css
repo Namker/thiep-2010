@@ -1,0 +1,280 @@
+/* =========================
+   THEME & TUNABLE VARIABLES
+   ========================= */
+:root{
+  --pink:#ff5a8a;        /* màu chủ đạo */
+  --text:#222;           /* màu chữ chính */
+
+  /* vị trí/size nút trái tim trên phong bì */
+  --cta-top:74%;
+  --cta-size:44px;
+
+  /* khoảng cách bố cục phần mưa chữ & heading */
+  --sky-top: 100px;      /* hạ vùng chữ rơi xuống dưới bấy nhiêu px */
+  --heading-top: 64px;   /* hạ dòng “Chúc mừng ngày 20/10” */
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  color:var(--text);
+  background:#fff;
+  display:grid;
+  place-items:center;
+}
+
+/* ==============
+   CARD CONTAINER
+   ============== */
+.card{
+  width:min(560px,92vw);
+  padding:28px 24px 40px;
+  border-radius:28px;
+  background:#fff;
+  box-shadow:0 6px 22px rgba(0,0,0,.08);
+  position:relative;
+  overflow:hidden;
+}
+
+h1{ margin:0 0 10px; text-align:center }
+
+/* =========
+   TITLE ICON
+   ========= */
+.title-icon{
+  width:42px; height:auto;
+  filter:drop-shadow(0 4px 12px rgba(255,90,138,.25));
+  transform-origin:50% 0%;            /* neo ở đỉnh để dịch xuống tự nhiên */
+  will-change: transform;
+}
+
+/* phóng to gấp đôi và ĐẨY XUỐNG khi hoa xuất hiện */
+.icon-grow-2x{
+  animation: iconGrow2x 1200ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes iconGrow2x{
+  0%   { transform: scale(1) translateY(0); }
+  60%  { transform: scale(2.1) translateY(22px); }  /* vượt nhẹ cho mượt */
+  100% { transform: scale(2)   translateY(18px); }  /* giữ gấp đôi, đẩy xuống */
+}
+/* chừa khoảng trống dưới tiêu đề khi icon đã lớn */
+.title-shift{ margin-bottom:26px !important; }
+
+.sub{ text-align:center; opacity:.7; font-size:14px }
+
+/* ===========
+   INTRO BUTTON
+   =========== */
+.gift-image{
+  position:relative;
+  width:220px; height:220px;
+  margin:16px auto 6px;
+  display:grid; place-items:center;
+  border:0; cursor:pointer; user-select:none;
+  background:#fff;
+  border-radius:26px;
+  box-shadow:0 16px 28px rgba(0,0,0,.10), 0 0 0 1px #eee inset;
+}
+.gift-image::before{
+  content:"";
+  position:absolute; inset:12px;
+  border-radius:20px;
+  background:linear-gradient(180deg,#ffdfe9 0%, #ffcddd 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
+             inset 0 -8px 16px rgba(255,120,160,.18);
+}
+.bunny-img{
+  position:relative; z-index:1;
+  width:86%; height:auto; object-fit:contain;
+  pointer-events:none; display:block;
+}
+
+/* =====
+   STAGE
+   ===== */
+.stage{ position:relative; height:560px; margin-top:6px; overflow:hidden }
+.hidden{ display:none }
+
+/* Nền mưa chữ: hạ xuống bằng --sky-top để gần bó hoa */
+.sky{
+  position:absolute; left:0; right:0;
+  top:var(--sky-top); bottom:0;
+  overflow:hidden; z-index:0;
+  perspective:800px;
+}
+.sky.dim{ opacity:.35; transition:opacity .8s ease }
+
+/* ========
+   RAINING
+   ======== */
+/* Chữ rơi: KHÔNG viền, hồng mềm */
+.drop{
+  position:absolute; top:0; white-space:nowrap;
+  color:#ff7aa1;        /* hồng mềm */
+  opacity:.75;          /* bớt gắt */
+  font-weight:700; letter-spacing:.2px;
+  -webkit-text-stroke:0;  /* bỏ viền */
+  text-shadow:none;       /* bỏ glow */
+  will-change:transform;
+  transform: translate3d(var(--x,0px), calc(-0.15 * var(--h,500px)), var(--z,0px))
+             rotateZ(var(--rz,0deg));
+  animation: fall var(--dur,6s) linear var(--delay,0s) infinite;
+}
+/* Tim rơi: đỏ nổi bật */
+.drop.heart{
+  color:#ff2d55;
+  -webkit-text-stroke:0;
+  text-shadow:none;
+  font-size:18px;
+}
+
+@keyframes fall{
+  0%{
+    transform: translate3d(var(--x,0px), calc(-0.15 * var(--h,500px)), var(--z,0px))
+               rotateZ(var(--rz,0deg));
+  }
+  100%{
+    transform: translate3d(var(--x,0px), calc(var(--h,500px) + 60px), var(--z,0px))
+               rotateZ(var(--rz,0deg));
+  }
+}
+
+/* =======
+   HEADING
+   ======= */
+/* cũng hạ xuống bằng --heading-top để gần bó hoa */
+.congrats{
+  position:absolute; left:0; right:0; top:var(--heading-top);
+  z-index:2; text-align:center;
+  font-family:Pacifico,cursive;
+  font-size:clamp(24px,5.6vw,36px);
+  color:var(--pink);
+  opacity:0; filter:blur(8px);
+  transition:opacity .8s ease .2s, filter .8s ease .2s;
+}
+.congrats.show{ opacity:1; filter:blur(0) }
+
+/* =======
+   BOUQUET
+   ======= */
+.bouquet-wrap{
+  position:absolute; left:50%; bottom:-40px; transform:translateX(-50%);
+  width:min(440px,88vw); z-index:1;
+}
+.bouquet-img{
+  width:100%; height:auto;
+  opacity:0; transform:translateY(160px) scale(.96) rotate(2deg);
+  filter:drop-shadow(0 12px 24px rgba(0,0,0,.12)) blur(.2px);
+}
+.ground-shadow{
+  position:absolute; left:50%; bottom:6px; transform:translateX(-50%);
+  width:54%; height:18px;
+  background:radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.18), rgba(0,0,0,0));
+  border-radius:50%; opacity:0; filter:blur(2px);
+}
+
+/* Rise animations */
+.rise .bouquet-img{ animation:riseUp 1100ms cubic-bezier(.22,1.2,.18,1) forwards }
+.rise .ground-shadow{ animation:shadowGrow 1100ms ease-out forwards }
+
+@keyframes riseUp{
+  0%   { opacity:0; transform:translateY(160px) scale(.96) rotate(2deg); }
+  70%  { opacity:1; transform:translateY(-10px) scale(1.02) rotate(.2deg); }
+  100% { opacity:1; transform:translateY(0) scale(1) rotate(0); }
+}
+@keyframes shadowGrow{
+  0%   { opacity:0; transform:translateX(-50%) scale(.6); }
+  70%  { opacity:.65; transform:translateX(-50%) scale(1.05); }
+  100% { opacity:.45; transform:translateX(-50%) scale(1); }
+}
+
+/* =========
+   HEART CTA
+   ========= */
+.heart-cta{
+  position:absolute; left:50%; top:var(--cta-top);
+  transform:translate(-50%,-50%);
+  width:var(--cta-size); height:var(--cta-size);
+  border-radius:50%; border:0; cursor:pointer; outline:none; z-index:2;
+  background:radial-gradient(75% 75% at 30% 25%, #fff, #ffe6ef);
+  box-shadow: 0 10px 24px rgba(255,92,138,.20),
+              inset 0 0 0 1px #ffd4e2,
+              inset 0 -8px 16px rgba(255,92,138,.12);
+  display:grid; place-items:center; opacity:0; pointer-events:none;
+}
+.heart-cta::before{
+  content:"❤"; font-size:26px; line-height:1; color:#ff2d55;
+  filter:drop-shadow(0 1px 0 #fff);
+}
+.heart-cta.show{
+  opacity:1; pointer-events:auto; animation:bob 1.6s ease-in-out .2s infinite;
+}
+@keyframes bob{
+  0%,100%{ transform:translate(-50%,-50%) translateY(0) }
+  50%    { transform:translate(-50%,-50%) translateY(-10px) }
+}
+
+/* =====
+   MODAL
+   ===== */
+.modal{
+  position:fixed; inset:0;
+  display:grid; place-items:center;
+  background:rgba(0,0,0,.35);
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease; z-index:1000;
+}
+.modal.open{ opacity:1; pointer-events:auto }
+
+.sheet{
+  width:min(520px,90vw);
+  background:#fff; color:#222;
+  border-radius:18px;
+  padding:22px 20px 18px;
+  box-shadow:0 14px 38px rgba(0,0,0,.18), inset 0 0 0 1px #f3f3f3;
+  transform:translateY(16px);
+  transition:transform .25s ease;
+}
+.open .sheet{ transform:translateY(0) }
+
+.sheet-title{
+  font-family:Pacifico,cursive;
+  font-size:28px; color:var(--pink);
+  margin:0 0 8px;
+}
+.sheet p{ margin:6px 0 0; line-height:1.6 }
+.close{
+  margin-top:12px; padding:10px 14px;
+  border-radius:12px; background:#fff0f5;
+  color:var(--pink); border:1px solid #ffd9e6;
+  cursor:pointer;
+}
+
+/* input tên */
+.name-row{ margin-top:12px; display:flex; gap:8px }
+#nameInput{
+  flex:1; padding:10px 12px; border-radius:10px;
+  border:1px solid #e6e6e6; background:#fff; color:#222;
+}
+
+/* =========
+   MISC
+   ========= */
+.credits{ text-align:center; font-size:12px; color:#8a8a8a; margin-top:18px }
+
+/* Responsive tweak – icon nhỏ hơn một chút trên màn hẹp */
+@media (max-width:380px){
+  .title-icon{ width:36px; }
+}
+/* phủ toàn màn hình khi thêm class .fullscreen */
+.sky.fullscreen{
+  position: fixed;      /* tách khỏi card để phủ toàn viewport */
+  inset: 0;             /* top/right/bottom/left = 0 */
+  z-index: 0;           /* phía sau nội dung card */
+  pointer-events: none; /* không chặn thao tác */
+}
+/* card luôn nổi trên nền mưa */
+.card{ position: relative; z-index: 1; }
