@@ -278,3 +278,47 @@ h1{ margin:0 0 10px; text-align:center }
 }
 /* card luôn nổi trên nền mưa */
 .card{ position: relative; z-index: 1; }
+/* ======= STICKER CAROUSEL (FIX) ======= */
+.sticker-sheet{ width:min(560px,94vw); }
+
+.carousel{
+  position: relative;
+  width: 100%;
+  height: min(70vh, 520px);   /* KHUNG CỐ ĐỊNH để trượt ngang */
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #f0f0f0;
+}
+
+.track{
+  display: flex;              /* QUAN TRỌNG: xếp slide theo hàng ngang */
+  height: 100%;
+  will-change: transform;
+  transition: transform .45s cubic-bezier(.22,.8,.2,1);
+}
+
+.slide{
+  flex: 0 0 100%;             /* mỗi slide chiếm đúng 100% chiều rộng khung */
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+
+.slide img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;        /* hình luôn lọt khung, không tràn */
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.08);
+}
+
+/* arrows & dots giữ nguyên (nếu đã có) */
+.nav{ position:absolute; top:50%; transform:translateY(-50%); width:36px; height:36px;
+      border-radius:999px; border:1px solid #ffd9e6; background:#fff0f5; color:var(--pink);
+      font-size:22px; display:grid; place-items:center; cursor:pointer;
+      box-shadow:0 6px 18px rgba(255,92,138,.18) }
+.prev{ left:8px } .next{ right:8px }
+.dots{ display:flex; gap:8px; justify-content:center; padding:10px 0 2px }
+.dots button{ width:8px; height:8px; border-radius:999px; border:0; background:#ffd1e0; cursor:pointer }
+.dots button.active{ background:var(--pink) }

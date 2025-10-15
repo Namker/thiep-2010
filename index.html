@@ -14,7 +14,7 @@
   <div class="card" id="app">
     <!-- ICON tiêu đề đổi theo tên: mặc định / Hằng -->
     <h1 id="title">
-      <img id="titleIcon" src="icon1.png" alt="icon" class="title-icon">
+      <img id="titleIcon" src="a2.png" alt="icon" class="title-icon">
     </h1>
 
     <!-- Ảnh mở đầu: LUÔN có -->
@@ -52,6 +52,26 @@
     </div>
   </div>
 
+<!-- Modal sticker / carousel -->
+<div class="modal" id="stickerModal" role="dialog" aria-modal="true" aria-labelledby="stickerTitle">
+  <div class="sheet sticker-sheet">
+    <h3 id="stickerTitle" class="sheet-title">Sticker tặng bạn 💗</h3>
+
+    <div class="carousel" id="carousel">
+      <div class="track" id="track"><!-- slides will be injected by JS --></div>
+
+      <button class="nav prev" id="prevBtn" aria-label="Trước">‹</button>
+      <button class="nav next" id="nextBtn" aria-label="Sau">›</button>
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <div class="sticker-footer">
+      <button class="close close-sticker" id="closeSticker">Đóng sticker</button>
+    </div>
+  </div>
+</div>
+
+  
   <!-- Modal nhập tên -->
   <div class="modal open" id="nameModal" role="dialog" aria-modal="true" aria-labelledby="askNameTitle">
     <div class="sheet">
